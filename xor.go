@@ -14,6 +14,14 @@ var _ KeySpace = XORKeySpace // ensure it conforms
 
 type xorKeySpace struct{}
 
+func (s *xorKeySpace) KeyFromHash(hash [32]byte) Key {
+	return Key{
+		Space:    s,
+		Original: nil, // TODO this isn't actually used anywhere in this lib
+		Bytes:    hash[:],
+	}
+}
+
 // Key converts an identifier into a Key in this space.
 func (s *xorKeySpace) Key(id []byte) Key {
 	hash := sha256.Sum256(id)
